@@ -200,6 +200,7 @@ require('lazy').setup({
         style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
       }
       require('onedark').load()
+      vim.cmd [[ highlight Normal guibg=NONE ]]
     end,
   },
 
@@ -331,6 +332,26 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+-- When sudo is needed
+vim.keymap.set('c', 'w!!', 'w !sudo tee > /dev/null %',
+  { noremap = true, silent = true })
+
+-- Turn off highlight search
+vim.keymap.set('n', '<leader>u', ':nohlsearch<CR>',
+  { noremap = true, silent = true })
+
+-- Disable arrow movement, move between windows instead
+vim.keymap.set('n', '<up>', '<c-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<down>', '<c-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<left>', '<c-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<right>', '<c-w>l', { noremap = true, silent = true })
+vim.keymap.set('n', '<c-up>', ':resize -1<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<c-down>', ':resize +1<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<c-left>', ':vertical resize -1<cr>',
+  { noremap = true, silent = true })
+vim.keymap.set('n', '<c-right>', ':vertical resize +1<cr>',
+  { noremap = true, silent = true })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -341,6 +362,150 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- Some autocommands. Need to work out how to do this in lua
+vim.cmd [[
+  " Save folds etc.
+  augroup view_group
+    autocmd!
+    autocmd BufWinLeave *.* silent! mkview!
+    autocmd BufWinEnter *.* silent! loadview
+    autocmd BufWinLeave config mkview!
+    autocmd BufWinEnter config silent! loadview
+    autocmd BufWinLeave .Xresources mkview!
+    autocmd BufWinEnter .Xresources silent! loadview
+    autocmd BufWinLeave init.vim mkview!
+    autocmd BufWinEnter init.vim silent! loadview
+  augroup end
+
+  " Strip trailing whitespace on save
+  augroup write_group
+    autocmd!
+    autocmd BufWritePre *.* :%s/\s\+$//e
+  augroup end
+  " Settings for particular file formats
+  augroup file_types
+    autocmd!
+    " Spelling etc.
+    autocmd FileType tex,pandoc,text
+      \ setlocal spell spelllang=en_au
+    autocmd FileType tex,pandoc,text
+      \ setlocal spellfile=~/.config/nvim/spell/en.utf-8.add
+    autocmd FileType tex,pandoc,text
+      \ setlocal spellfile+=/.config/nvim/spell/jargon.utf-8.add
+    autocmd FileType tex,pandoc,text
+      \ setlocal dictionary+=/usr/share/dict/british-english
+    autocmd FileType tex,pandoc,text setlocal thesaurus+=~/mthesaur.txt
+    autocmd FileType tex,pandoc,text setlocal complete+=i,kspell
+
+    " Text settings
+    autocmd FileType tex,text,markdown,pandoc
+      \ setlocal tw=79 wrap sw=2 ts=2 et
+    autocmd FileType gitcommit  setlocal spell tw=72
+    autocmd FileType fish,sh,zsh,ruby,vim,yaml,html,phtml,xhtml,xml,xsl,css,lua
+      \ setlocal tw=0 wrap sw=2 ts=2 et
+    autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
+    autocmd FileType calendar   :IndentLinesDisable
+    autocmd FileType csv        :IndentLinesDisable
+
+    " Highlight column 80
+    autocmd FileType c,conf,cpp,go,lua,javascript,perl,python,sh,tmux,vim
+      \ call matchadd('ColorColumn', '\%80v', 100)
+    autocmd FileType html,pandoc,markdown,tex,text
+      \ call matchadd('ColorColumn', '\%80v', 100)
+
+    " Wrapping and formatting
+    autocmd FileType c,java,lua,python,sh,vim setlocal formatoptions=tcqnj1
+    autocmd FileType tex,markdown
+      \ setlocal wrap linebreak formatoptions=tcqn
+    autocmd FileType text,pandoc
+      \ setlocal wrap linebreak formatoptions=tcqn
+    autocmd FileType markdown,nroff,pandoc,tex,text   setlocal formatprg=par\ -w79
+    autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal cindent
+    autocmd FileType javascript setlocal ts=2 sw=2
+
+    " Fold Methods
+    autocmd FileType markdown setlocal foldmethod=expr
+    autocmd FileType markdown xnoremap <leader><bslash> :EasyAlign*<bar><cr>
+    autocmd FileType lua,python,sh    setlocal foldmethod=indent
+    autocmd FileType c,cpp,java,pandoc,go    setlocal foldmethod=syntax
+    autocmd FileType sh,vim   setlocal foldmethod=marker
+    " Comment out lines/sections in various file types
+    autocmd FileType python     nnoremap <buffer> <leader>c I# <esc>
+    autocmd FileType tmux,conf  nnoremap <buffer> <leader>c I# <esc>
+    autocmd FileType c
+      \ vnoremap <buffer> <leader>c <esc>`>a*/<esc>`<i/*<esc>
+    autocmd FileType cpp
+      \ vnoremap <buffer> <leader>c <esc>`>a*/<esc>`<i/*<esc>
+    autocmd FileType vim        nnoremap <buffer> <leader>c I" <esc>
+    autocmd BufRead,BufNewFile .Xresources nnoremap <buffer> <leader>c I! <esc>
+    autocmd BufRead,BufNewFile .Xresources nnoremap <buffer> gcc I! <esc>
+    autocmd BufRead,BufNewFile .Xresources
+      \ nnoremap <CR><buffer> <leader>c :s/^/! /<cr>
+
+    " Auto indent HTML when writing
+    autocmd BufWritePre *.html :normal! m'gg=G''
+
+    " Settings for specific files
+    autocmd BufRead,BufNewFile *.spv setlocal ft=php
+    autocmd BufRead,BufNewFile *.md  setlocal ft=pandoc
+    autocmd BufRead,BufNewFile *.p,*.i setlocal ft=progress
+    autocmd BufRead,BufNewFile *.tsv setlocal ft=csv
+    autocmd BufRead,BufNewFile *.h   setlocal ft=c
+    autocmd BufRead,BufNewFile *.tsv
+      \ setlocal sw=20 ts=20 sts=20 noet
+    autocmd BufRead,BufNewFile *.ms,*.me,*.mom setlocal ft=nroff
+    autocmd BufRead,BufNewFile *.c,*.py,*.js,*.java,*.vim,*rc
+      \ run :IndentLinesEnable<cr>
+    autocmd BufRead,BufNewFile *.c setlocal sw=4 ts=4 sts=4
+    " autocmd BufWritePost       *.c,*.py,*.js,*.java silent! !ctags -R &
+    autocmd BufRead,BufNewFile Makefile
+      \ setlocal sw=4 ts=4 sts=4 noet
+    autocmd BufRead,BufNewFile init.vim
+      \ setlocal tw=0 sw=2 ts=2 et
+    autocmd BufRead,BufNewFile *.wiki run :nunmap <buffer> o<cr>
+    autocmd FileType crontab setlocal backupcopy=yes
+    " Check file in shellcheck
+    autocmd FileType sh nnoremap <silent> <leader>s :!clear && shellcheck %<cr>
+
+    " Unmap <tab> for markdown/pandoc
+    autocmd FileType markdown silent! iunmap <buffer> <tab>
+    autocmd FileType pandoc silent! iunmap <buffer> <tab>
+
+    " Run xrdb whenever .Xresources is updated
+    autocmd BufWritePost ~/.Xresources silent! !xrdb %
+  augroup end
+
+  " autocmd group for progress 4gl
+  augroup group_progress
+    autocmd Filetype progress setlocal fdm=indent wrap sw=2 ts=2 tw=79
+    autocmd FileType progress iabbrev ava available
+    autocmd FileType progress iabbrev cha character
+    autocmd FileType progress iabbrev dec decimal
+    autocmd FileType progress iabbrev def define
+    autocmd FileType progress iabbrev fun function
+    autocmd FileType progress iabbrev ini initial
+    autocmd FileType progress iabbrev inp input
+    autocmd FileType progress iabbrev int integer
+    autocmd FileType progress iabbrev log logical
+    autocmd FileType progress iabbrev mes message
+    autocmd FileType progress iabbrev noa no-apply
+    autocmd FileType progress iabbrev noe no-error
+    autocmd FileType progress iabbrev nol no-lock
+    autocmd FileType progress iabbrev nom no-message
+    autocmd FileType progress iabbrev nop no-pause
+    autocmd FileType progress iabbrev nou no-undo
+    autocmd FileType progress iabbrev par parameter
+    autocmd FileType progress iabbrev pro procedure
+    autocmd FileType progress iabbrev rep repeat
+    autocmd FileType progress iabbrev ret return
+    autocmd FileType progress iabbrev var variable
+    autocmd FileType progress
+      \ iabbrev do: do:<cr><bs>end.<space>/**<space><space>**/<esc>3ki
+    autocmd FileType progress
+      \ nnoremap <leader>D V/^end<cr>:s/first/last/<cr>gv:s/gt/lt/<cr>gv:s/down/up/<cr>:nohls<cr>
+  augroup end
+]]
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`

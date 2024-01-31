@@ -352,6 +352,68 @@ vim.keymap.set('n', '<c-left>', ':vertical resize -1<cr>',
 vim.keymap.set('n', '<c-right>', ':vertical resize +1<cr>',
   { noremap = true, silent = true })
 
+-- Preserve selection when indenting in visual mode
+vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true })
+vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true })
+
+-- Switch buffer
+vim.keymap.set('n', '<c-PageDown>', ':bn!<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<c-PageUp>', ':bp!<cr>', { noremap = true, silent = true })
+
+-- Mappings for date/time
+vim.keymap.set('n', '<f4>', '=strftime("%H:%M")<cr>p',
+  { noremap = true, silent = true})
+vim.keymap.set('i', '<f4>', '<c-r>=strftime("%H:%M)<cr>',
+  { noremap = true, silent = true})
+vim.keymap.set('n', '<f5>', '=strftime("%F")<cr>p',
+  { noremap = true, silent = true})
+vim.keymap.set('i', '<f5>', '<c-r>=strftime("%F")<cr>',
+  { noremap = true, silent = true})
+
+-- Quotes, parentheses, brackets, and braces around
+vim.keymap.set('n', '<leader>"', 'viw<esc>a"<esc>bi"<esc>lel',
+  { noremap = true, silent = true})
+vim.keymap.set("n", "<leader>'", "viw<esc>a'<esc>bi'<esc>lel",
+  { noremap = true, silent = true})
+vim.keymap.set("n", "<leader>`", "viw<esc>a`<esc>bi`<esc>lel",
+  { noremap = true, silent = true})
+vim.keymap.set('n', '<leader>)', 'viw<esc>a)<esc>bi(<esc>lel',
+  { noremap = true, silent = true})
+vim.keymap.set('n', '<leader>]', 'viw<esc>a]<esc>bi[<esc>lel',
+  { noremap = true, silent = true})
+vim.keymap.set('n', '<leader>}', 'viw<esc>a}<esc>bi(<esc>lel',
+  { noremap = true, silent = true})
+vim.keymap.set('v', '<leader>"', '<esc>`>a"<esc>`<i"<esc>',
+  { noremap = true, silent = true})
+vim.keymap.set("v", "<leader>'", "<esc>`>a'<esc>`<i'<esc>",
+  { noremap = true, silent = true})
+vim.keymap.set("v", "<leader>`", "<esc>`>a`<esc>`<i`<esc>",
+  { noremap = true, silent = true})
+vim.keymap.set('v', '<leader>)', '<esc>`>a)<esc>`<i(<esc>',
+  { noremap = true, silent = true})
+vim.keymap.set('v', '<leader>]', '<esc>`>a]<esc>`<i[<esc>',
+  { noremap = true, silent = true})
+vim.keymap.set('v', '<leader>}', '<esc>`>a}<esc>`<i(<esc>',
+  { noremap = true, silent = true})
+
+-- Toggle fold
+vim.keymap.set('n', '<f7>', 'za', { noremap = true, silent = true})
+-- Toggle all folds
+vim.keymap.set('n', '<f8>', ':call ToggleFolded()<cr>',
+  { noremap = true, silent = true})
+
+-- Toggle ConcealLevel
+vim.keymap.set('n', '<f9>', ':call ToggleConceal()<cr>',
+  { noremap = true, silent = true})
+
+-- Toggle Spelling
+vim.keymap.set('n', '<leader>o', ':setlocal spell!<cr>',
+  { noremap = true, silent = true})
+
+-- Auto correct last spelling error
+vim.keymap.set('n', '<leader>ac', ':call AutoCorrect()<cr>',
+  { noremap = true, silent = true})
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -751,6 +813,10 @@ local servers = {
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
       -- diagnostics = { disable = { 'missing-fields' } },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      }
     },
   },
 }

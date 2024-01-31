@@ -201,6 +201,7 @@ require('lazy').setup({
       }
       require('onedark').load()
       vim.cmd [[ highlight Normal guibg=NONE ]]
+      vim.cmd [[ highlight EndOfBuffer guibg=NONE ]]
     end,
   },
 

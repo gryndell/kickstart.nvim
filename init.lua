@@ -99,6 +99,9 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
+      -- Use words in buffer
+      'hrsh7th/cmp-buffer',
+
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
@@ -106,6 +109,9 @@ require('lazy').setup({
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+
+      -- Autocompletion in the command line
+      'hrsh7th/cmp-cmdline',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -276,6 +282,8 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+require('bufferline').setup{}
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -333,12 +341,114 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+-- old functions: todo: rewrite in lua
+vim.cmd [[
+" Toggle numbers
+function!ToggleNumber()
+  if (&relativenumber == 0 && &number == 0)
+    set number
+  elseif (&relativenumber == 0 && &number == 1)
+    set relativenumber
+    set nonumber
+  elseif (&relativenumber == 1 && &number == 0)
+    set number
+  elseif (&relativenumber == 1 && &number == 1)
+    set norelativenumber
+    set nonumber
+  endif
+endfunction " ToggleNumber
+
+function!ToggleConceal()
+  if (&conceallevel == 0)
+    set conceallevel=1
+  elseif (&conceallevel == 1)
+    set conceallevel=2
+  elseif (&conceallevel == 2)
+    set conceallevel=3
+  else
+    set conceallevel=0
+  endif
+  echo "Conceal Level is " &conceallevel
+endfunction " ToggleConceal
+
+" Smart Home Key
+function! SmartHome()
+  let first_nonblank = match(getline('.'), '\S') + 1
+  if first_nonblank == 0
+    return col('.') + 1 >= col('$') ? '0' : '^'
+  endif
+  if col('.') == first_nonblank
+    return '0'  " if at first nonblank, go to start line
+  endif
+  return &wrap && wincol() > 1 ? 'g^' : '^'
+endfunction " SmartHome
+
+" Toggle Folding Level
+function! ToggleFolded()
+  if &foldlevel == 0
+    normal! zR
+  else
+    normal! zM
+  endif
+endfunction " ToggleFolded
+
+" Strip Trailing Whitespace
+function! StripTrailingWhitespace()
+  " don't strip on these filetypes
+  if &ft =~ 'markdown'
+    return
+  endif
+  if &ft =~ 'make'
+    return
+  endif
+  if &ft =~ 'crontab'
+    return
+  endif
+  if &ft =~ 'diff'
+    return
+  endif
+  if !&binary
+    " Save current position
+    let l:_save_pos = getpos('.')
+    " range all remove trailing whitespace characters
+    %s/\s\+$//e
+    " Restore position
+    call setpos('.', l:_save_pos)
+  endif
+endfunction " StripTrailingWhitespace
+
+" Visual Move Functions from Drew Neil's vimcasts - http://vimcasts.org/episodes/bubbling-text/
+" Modified to check for line-visual mode.
+function! Visual()
+  return visualmode() ==# 'V'
+endfunction " Visual
+" Move Up
+function! Move_Up() abort range
+  let l:at_top=a:firstline == 1
+  if Visual() && !l:at_top
+    '<,'>move '<-2
+    call feedkeys('gv=', 'n')
+  endif
+  call feedkeys('gv', 'n')
+endfunction " Move_Up
+" Move Down
+function! Move_Down() abort range
+  let l:at_bottom=a:lastline == line('$')
+  if Visual() && !l:at_bottom
+    '<,'>move '>+1
+    call feedkeys('gv=', 'n')
+  endif
+  call feedkeys('gv', 'n')
+endfunction " Move_Down
+
+" Go to previous spelling error and use first suggestion
+function! AutoCorrect()
+    normal! ms[s1z=`s
+endfunction " AutoCorrect
+]] -- End of old functions
+
 -- When sudo is needed
 vim.keymap.set('c', 'w!!', 'w !sudo tee > /dev/null %',
-  { noremap = true, silent = true })
-
--- Turn off highlight search
-vim.keymap.set('n', '<leader>u', ':nohlsearch<CR>',
   { noremap = true, silent = true })
 
 -- Disable arrow movement, move between windows instead
@@ -362,11 +472,11 @@ vim.keymap.set('n', '<c-PageDown>', ':bn!<cr>', { noremap = true, silent = true 
 vim.keymap.set('n', '<c-PageUp>', ':bp!<cr>', { noremap = true, silent = true })
 
 -- Mappings for date/time
-vim.keymap.set('n', '<f4>', '=strftime("%H:%M")<cr>p',
+vim.keymap.set('n', '<f4>', '"=strftime("%H:%M")<cr>p',
   { noremap = true, silent = true})
 vim.keymap.set('i', '<f4>', '<c-r>=strftime("%H:%M)<cr>',
   { noremap = true, silent = true})
-vim.keymap.set('n', '<f5>', '=strftime("%F")<cr>p',
+vim.keymap.set('n', '<f5>', '"=strftime("%F")<cr>p',
   { noremap = true, silent = true})
 vim.keymap.set('i', '<f5>', '<c-r>=strftime("%F")<cr>',
   { noremap = true, silent = true})
@@ -414,6 +524,12 @@ vim.keymap.set('n', '<leader>o', ':setlocal spell!<cr>',
 -- Auto correct last spelling error
 vim.keymap.set('n', '<leader>ac', ':call AutoCorrect()<cr>',
   { noremap = true, silent = true})
+
+-- Do very magic searching
+vim.keymap.set('n', '/', '/\\v',
+  { noremap = true })
+vim.keymap.set('c', '%s/', '%s/\\v',
+  { noremap = true })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -893,6 +1009,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
+    { name = 'buffer' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },

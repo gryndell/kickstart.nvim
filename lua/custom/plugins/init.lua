@@ -1,5 +1,10 @@
 return {
-	'windwp/nvim-autopairs',
+	{
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+	},
+	'kshenoy/vim-signature',
 	'Exafunction/codeium.vim',
 	config = function ()
 	-- Change '<C-g>' here to any keycode you like.
@@ -93,5 +98,4 @@ return {
 			},
 		},
 	},
-	require('bufferline').setup {}
 }

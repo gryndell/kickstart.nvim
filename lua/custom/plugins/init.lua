@@ -1,11 +1,13 @@
 return {
 	{
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
+	    'windwp/nvim-autopairs',	-- pairs of parentheses etc.
+	    event = "InsertEnter",
+	    opts = {} -- this is equalent to setup({}) function
 	},
-	'kshenoy/vim-signature',
-	'Exafunction/codeium.vim',
+	'kshenoy/vim-signature',      -- show marks in gutter
+  'dhruvasagar/vim-table-mode', -- table mode
+	'gabrielelana/vim-markdown',  -- better markdown syntax highlighting
+	'Exafunction/codeium.vim',    -- AI assistant
 	config = function ()
 	-- Change '<C-g>' here to any keycode you like.
 	vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end,
@@ -14,7 +16,7 @@ return {
 				{ expr = true, silent = true })
 	end,
 	{
-		'akinsho/bufferline.nvim',
+		'akinsho/bufferline.nvim',	-- show buffers in tabline
 		version = "*",
 		dependencies = 'nvim-tree/nvim-web-devicons',
 		highlights = {

@@ -284,6 +284,14 @@ require('lazy').setup({
 
 require('bufferline').setup{}
 
+--{{{ markdown
+vim.g.markdown_fenced_languages = {
+  'html', 'python', 'lua', 'vim', 'typescript', 'javascript', 'css', 'bash',
+  'sh', 'json', 'yaml', 'c', 'cpp', 'go', 'rust', 'pandoc', 'fish'
+}
+vim.g.table_mode_corner = '|'
+--}}}
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -324,6 +332,78 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+-- Limit popup menu
+vim.o.pumheight = 10
+
+-- Always show cursor position
+vim.o.ruler = true
+
+-- Increase commmand height
+vim.o.cmdheight = 2
+
+-- Initialise ConcealLevel
+vim.o.conceallevel = 0
+
+-- Format Options
+vim.o.formatoptions = 'tqj'
+
+-- Disable swap file
+vim.o.swapfile = false
+
+-- Show Command
+vim.o.showcmd = true
+
+-- Help language
+vim.o.helplang = 'en'
+
+-- View options
+vim.o.viewoptions = 'folds,options,cursor,curdir'
+
+-- ListChars
+vim.o.listchars = 'tab:»·,trail:·,nbsp:+,extends:→,precedes:←'
+vim.o.list = true
+
+-- Default file format
+vim.o.fileformat = 'unix'
+
+-- Re-read file if changed outside of vim
+vim.o.autoread = true
+
+-- Set wildmode
+vim.o.wildmode = 'longest,list,full'
+vim.o.wildmenu = true
+
+-- Lazy redraw
+vim.o.lazyredraw = true
+
+-- Show tags
+vim.o.tags = 'tags'
+
+--{{{ Search Settings
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.infercase = true
+vim.o.incsearch = true
+vim.o.hlsearch = true
+--}}} Search Settings
+
+--{{{ White Space Defaults
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.smarttab = true
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.autoindent = true
+vim.o.backspace = 'indent,eol,start'
+vim.o.joinspaces = true
+--}}} White Space Defaults
+
+--{{{ Splits
+vim.o.splitright = false    -- Split to the left
+vim.o.splitbelow = false    -- Split above
+--}}} Splits
 
 -- [[ Basic Keymaps ]]
 
@@ -599,7 +679,6 @@ vim.cmd [[
       \ setlocal wrap linebreak formatoptions=tcqn
     autocmd FileType text,pandoc
       \ setlocal wrap linebreak formatoptions=tcqn
-    autocmd FileType markdown,nroff,pandoc,tex,text   setlocal formatprg=par\ -w79
     autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal cindent
     autocmd FileType javascript setlocal ts=2 sw=2
 
@@ -627,7 +706,6 @@ vim.cmd [[
 
     " Settings for specific files
     autocmd BufRead,BufNewFile *.spv setlocal ft=php
-    autocmd BufRead,BufNewFile *.md  setlocal ft=pandoc
     autocmd BufRead,BufNewFile *.p,*.i setlocal ft=progress
     autocmd BufRead,BufNewFile *.tsv setlocal ft=csv
     autocmd BufRead,BufNewFile *.h   setlocal ft=c
@@ -1017,4 +1095,4 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et foldmethod=marker

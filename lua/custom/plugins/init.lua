@@ -8,6 +8,8 @@ return {
   'dhruvasagar/vim-table-mode', -- table mode
   'gabrielelana/vim-markdown',  -- better markdown syntax highlighting
   'Exafunction/codeium.vim',    -- AI assistant
+  'vim-pandoc/vim-pandoc',      -- pandoc integration
+  'vim-pandoc/vim-pandoc-syntax', -- pandoc syntax
   config = function ()
   -- Change '<C-g>' here to any keycode you like.
   vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end,

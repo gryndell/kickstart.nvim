@@ -706,6 +706,7 @@ vim.cmd [[
 
     " Settings for specific files
     autocmd BufRead,BufNewFile *.spv setlocal ft=php
+    autocmd BufRead,BufNewFile *.md  setlocal ft=pandoc
     autocmd BufRead,BufNewFile *.p,*.i setlocal ft=progress
     autocmd BufRead,BufNewFile *.tsv setlocal ft=csv
     autocmd BufRead,BufNewFile *.h   setlocal ft=c

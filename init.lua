@@ -204,6 +204,9 @@ require('lazy').setup({
       require('onedark').setup {
         -- Set a style preset. 'dark' is default.
         style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
+        no_italic = false,
+        no_bold = false,
+        no_underline = false,
       }
       require('onedark').load()
       vim.cmd [[ highlight Normal guibg=NONE ]]
@@ -217,10 +220,10 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'auto',
-        component_separators = '|',
-        section_separators = '',
+        component_separators = { left = ' ', right = ' ' },
+        section_separators = { left = ' ', right = ' ' },
       },
     },
   },
@@ -856,7 +859,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'markdown', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'markdown', 'markdown_inline', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -1100,6 +1103,16 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+--{{{ Theme
+vim.o.syntax = "ON"           -- str:  Allow syntax highlighting
+-- opt.cursorline = true       -- Highlight the current line
+-- opt.cursorcolumn = true     -- Highlight the current column
+vim.o.path = vim.o.path .. '**'
+vim.o.fileformat = 'unix'
+vim.o.showmatch = true
+vim.o.guifont = 'Hack Nerd Font Mono 16'
+--}} Theme
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et foldmethod=marker

@@ -682,13 +682,14 @@ vim.cmd [[
       \ call matchadd('ColorColumn', '\%80v', 100)
 
     " Wrapping and formatting
-    autocmd FileType c,java,lua,python,sh,vim setlocal formatoptions=tcqnj1
     autocmd FileType tex,markdown
       \ setlocal wrap linebreak formatoptions=tcqn
     autocmd FileType text,pandoc
       \ setlocal wrap linebreak formatoptions=tcqn
+    autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal formatoptions=tcqnj1
     autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal cindent
-    autocmd FileType javascript setlocal ts=2 sw=2
+    autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal ts=2 sw=2
+    autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal expandtab
 
     " Fold Methods
     autocmd FileType markdown setlocal foldmethod=expr

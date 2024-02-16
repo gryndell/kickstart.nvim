@@ -639,8 +639,6 @@ vim.cmd [[
     autocmd BufWinEnter *.* silent! loadview
     autocmd BufWinLeave config mkview!
     autocmd BufWinEnter config silent! loadview
-    autocmd BufWinLeave .Xresources mkview!
-    autocmd BufWinEnter .Xresources silent! loadview
     autocmd BufWinLeave init.vim mkview!
     autocmd BufWinEnter init.vim silent! loadview
   augroup end
@@ -705,9 +703,6 @@ vim.cmd [[
     autocmd FileType cpp
       \ vnoremap <buffer> <leader>c <esc>`>a*/<esc>`<i/*<esc>
     autocmd FileType vim        nnoremap <buffer> <leader>c I" <esc>
-    autocmd BufRead,BufNewFile .Xresources nnoremap <buffer> <leader>c I! <esc>
-    autocmd BufRead,BufNewFile .Xresources nnoremap <buffer> gcc I! <esc>
-    autocmd BufRead,BufNewFile .Xresources
       \ nnoremap <CR><buffer> <leader>c :s/^/! /<cr>
 
     " Auto indent HTML when writing
@@ -738,9 +733,6 @@ vim.cmd [[
     " Unmap <tab> for markdown/pandoc
     autocmd FileType markdown silent! iunmap <buffer> <tab>
     autocmd FileType pandoc silent! iunmap <buffer> <tab>
-
-    " Run xrdb whenever .Xresources is updated
-    autocmd BufWritePost ~/.Xresources silent! !xrdb %
   augroup end
 
   " autocmd group for progress 4gl
@@ -1106,9 +1098,9 @@ cmp.setup {
 }
 
 --{{{ Theme
-vim.o.syntax = "ON"           -- str:  Allow syntax highlighting
--- opt.cursorline = true       -- Highlight the current line
--- opt.cursorcolumn = true     -- Highlight the current column
+vim.o.syntax = "ON"             -- str:  Allow syntax highlighting
+-- opt.cursorline = true        -- Highlight the current line
+-- opt.cursorcolumn = true      -- Highlight the current column
 vim.o.path = vim.o.path .. '**'
 vim.o.fileformat = 'unix'
 vim.o.showmatch = true

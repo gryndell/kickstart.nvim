@@ -110,6 +110,9 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
+      -- disable netrw at the start
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
       require("nvim-tree").setup ({
         sort = {
           sorter = "case_sensitive",

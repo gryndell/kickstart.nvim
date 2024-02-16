@@ -124,6 +124,8 @@ return {
           dotfiles = true,
         },
       })
+      vim.cmd [[ highlight NvimTreeNormal guibg=NONE ]]
+      vim.cmd [[ highlight NvimTreeEndOfBuffer guibg=NONE ]]
     end,
   },
 }

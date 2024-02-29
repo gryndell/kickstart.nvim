@@ -348,6 +348,14 @@ require('lazy').setup({
     },
   },
   {
+    "wincent/loupe",
+    lazy = false,
+    config = function ()
+      vim.o.grepformat = "%f:%l:%c:%m"
+      vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
+    end
+  },
+  {
     "nvim-tree/nvim-tree.lua",
     version = "*",
     lazy = false,

@@ -58,6 +58,8 @@ keymap('x', '<', '<gv', opts)
 -- Switch buffer
 keymap('n', '<c-PageDown>', ':bn!<cr>', opts)
 keymap('n', '<c-PageUp>', ':bp!<cr>', opts)
+keymap('n', '<leader><PageDown>', ':bn!<cr>', opts)
+keymap('n', '<leader><PageUp>', ':bp!<cr>', opts)
 
 -- Mappings for date/time
 keymap('n', '<f4>', '=strftime("%H:%M")<cr>p', opts)

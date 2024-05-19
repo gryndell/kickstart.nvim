@@ -110,7 +110,7 @@ augroup end
 
 " autocmd group for progress 4gl
 augroup group_progress
-  autocmd Filetype progress setlocal fdm=indent wrap sw=2 ts=2 tw=79
+  autocmd Filetype progress setlocal fdm=indent wrap sw=4 ts=4 tw=79
   autocmd FileType progress iabbrev ava available
   autocmd FileType progress iabbrev cha character
   autocmd FileType progress iabbrev dec decimal

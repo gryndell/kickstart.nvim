@@ -98,6 +98,7 @@ augroup file_types
   autocmd FileType crontab setlocal backupcopy=yes
   " Check file in shellcheck
   autocmd FileType sh nnoremap <silent> <leader>s :!clear && shellcheck %<cr>
+  autocmd FileType go setlocal noexpandtab nolist
 
   " Unmap <tab> for markdown/pandoc
   autocmd FileType markdown silent! iunmap <buffer> <tab>

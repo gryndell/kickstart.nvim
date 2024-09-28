@@ -91,7 +91,7 @@ augroup file_types
   autocmd BufRead,BufNewFile *.c,*.go,*.rs setlocal sw=4 ts=4 sts=4
   " autocmd BufWritePost       *.c,*.py,*.js,*.java silent! !ctags -R &
   autocmd BufRead,BufNewFile Makefile
-    \ setlocal sw=4 ts=4 sts=4 noet
+    \ setlocal sw=4 ts=4 sts=4 noexpandtab nolist
   autocmd BufRead,BufNewFile init.vim
     \ setlocal tw=0 sw=2 ts=2 et
   autocmd BufRead,BufNewFile *.wiki run :nunmap <buffer> o<cr>

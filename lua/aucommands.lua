@@ -87,12 +87,10 @@ augroup file_types
   autocmd BufRead,BufNewFile *.ms,*.me,*.mom setlocal ft=nroff
   autocmd BufRead,BufNewFile *.c,*.py,*.js,*.java,*.vim,*rc
     \ run :IndentLinesEnable<cr>
-  autocmd BufRead,BufNewFile *.c,*.go,*.rs setlocal sw=4 ts=8 sts=8
+  autocmd BufRead,BufNewFile *.c,*.go,*.rs setlocal sw=8 ts=8 sts=8
   " autocmd BufWritePost       *.c,*.py,*.js,*.java silent! !ctags -R &
   autocmd BufRead,BufNewFile Makefile
-    \ setlocal sw=4 ts=4 sts=4 noexpandtab nolist
-  autocmd BufRead,BufNewFile init.vim
-    \ setlocal tw=0 sw=2 ts=2 et
+    \ setlocal sw=8 ts=4 sts=8 noexpandtab nolist
   autocmd BufRead,BufNewFile *.wiki run :nunmap <buffer> o<cr>
   autocmd FileType crontab setlocal backupcopy=yes
   " Check file in shellcheck

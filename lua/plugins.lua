@@ -406,7 +406,7 @@ require('lazy').setup({
       vim.o.grepformat = "%f:%l:%c:%m"
       vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
     end
-  },
+  }, -- loupe
   {
     "nvim-tree/nvim-tree.lua",
     version = "*",
@@ -435,6 +435,16 @@ require('lazy').setup({
       vim.cmd [[ highlight NvimTreeNormal guibg=NONE ]]
       vim.cmd [[ highlight NvimTreeEndOfBuffer guibg=NONE ]]
     end,
+  }, -- nvim-tree
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    main = "render-markdown",
+    opts = {},
+    name = 'render-markdown',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+      }
   },
 })
 

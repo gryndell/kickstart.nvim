@@ -35,8 +35,8 @@ augroup file_types
   autocmd FileType fish,sh,zsh,ruby,vim,yaml,html,phtml,xhtml,xml,xsl,css,lua
     \ setlocal tw=0 wrap sw=2 ts=2 et
   autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
-  autocmd FileType calendar   :IndentLinesDisable
-  autocmd FileType csv        :IndentLinesDisable
+  autocmd FileType calendar   run :IndentLinesDisable
+  autocmd FileType csv        run :IndentLinesDisable
 
   " Highlight column 80
   autocmd FileType c,conf,cpp,go,lua,javascript,perl,python,sh,tmux,vim

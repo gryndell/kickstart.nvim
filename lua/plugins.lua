@@ -304,7 +304,7 @@ require('lazy').setup({
   'kshenoy/vim-signature',      -- show marks in gutter
   'dhruvasagar/vim-table-mode', -- table mode
   'gabrielelana/vim-markdown',  -- better markdown syntax highlighting
-  'Exafunction/codeium.vim',    -- AI assistant
+  -- 'Exafunction/codeium.vim',    -- AI assistant
   'vim-pandoc/vim-pandoc',      -- pandoc integration
   'vim-pandoc/vim-pandoc-syntax', -- pandoc syntax
   config = function ()
@@ -445,7 +445,11 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons',
       }
-  },
+  }, -- markdown.nvim
+  {
+    'kiddos/gemini.nvim',
+    opts = {}
+  }, -- gemini.nvim
 })
 
 local lspconfig = require("lspconfig")

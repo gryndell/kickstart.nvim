@@ -448,7 +448,17 @@ require('lazy').setup({
   }, -- markdown.nvim
   {
     'kiddos/gemini.nvim',
-    opts = {}
+    opts = {
+      hints = {
+        insert_result_key = '<Tab>',
+      },
+      completion = {
+        insert_result_key = '<Tab>',
+      },
+      instruction = {
+        menu_key = '<C-m>',
+      },
+    }
   }, -- gemini.nvim
 })
 

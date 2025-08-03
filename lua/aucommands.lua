@@ -134,6 +134,11 @@ augroup group_progress
     \ nnoremap <leader>D V/^end<cr>:s/first/last/<cr>gv:s/gt/lt/<cr>gv:s/down/up/<cr>:nohls<cr>
 augroup end
 
+" autocmd group for cobol
+augroup group_cobol
+  autocmd FileType cobol setlocal vartabstop=7,1,4,5,4
+augroup end
+
 " Highlight words to avoid in tech writing
 " http://css-tricks.com/words-avoid-educational-writing/
 " augroup tech_words

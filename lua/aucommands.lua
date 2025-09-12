@@ -96,6 +96,7 @@ augroup file_types
   " Check file in shellcheck
   autocmd FileType sh nnoremap <silent> <leader>s :!clear && shellcheck %<cr>
   autocmd FileType go setlocal noexpandtab nolist
+  autocmd BufRead,BufNewFile *.me,*.mom,*.ms,*.c,*.md,*.tex setlocal makeprg=$HOME/bin/compile.sh\ %
 
   " Unmap <tab> for markdown
   autocmd FileType markdown silent! iunmap <buffer> <tab>

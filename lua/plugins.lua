@@ -445,19 +445,30 @@ require('lazy').setup({
       }
   }, -- markdown.nvim
   {
-    'kiddos/gemini.nvim',
-    opts = {
-      hints = {
-        insert_result_key = '<S-Tab>',
-      },
-      completion = {
-        insert_result_key = '<S-Tab>',
-      },
-      instruction = {
-        menu_key = '<C-m>',
-      },
-    }
-  }, -- gemini.nvim
+    "Exafunction/windsurf.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "hrsh7th/nvim-cmp",
+    },
+    config = function()
+        require("codeium").setup({
+        })
+    end
+  },
+--  {
+--    'kiddos/gemini.nvim',
+--    opts = {
+--      hints = {
+--        insert_result_key = '<S-Tab>',
+--      },
+--      completion = {
+--        insert_result_key = '<S-Tab>',
+--      },
+--      instruction = {
+--        menu_key = '<C-m>',
+--      },
+--    }
+--  }, -- gemini.nvim
 })
 
 local lspconfig = require("lspconfig")

@@ -471,15 +471,16 @@ require('lazy').setup({
 --  }, -- gemini.nvim
 })
 
-local lspconfig = require("lspconfig")
-lspconfig.gopls.setup({
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
-      gofumpt = true,
-    },
-  },
-})
+-- local lspconfig = require("lspconfig")
+-- local lspconfig = vim.lsp.config()
+-- lspconfig.gopls.setup({
+--   settings = {
+--     gopls = {
+--       analyses = {
+--         unusedparams = true,
+--       },
+--       staticcheck = true,
+--       gofumpt = true,
+--     },
+--   },
+-- })

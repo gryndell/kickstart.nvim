@@ -83,14 +83,15 @@ augroup file_types
   autocmd BufRead,BufNewFile *.tsv setlocal ft=csv
   autocmd BufRead,BufNewFile *.h   setlocal ft=c
   autocmd BufRead,BufNewFile *.tsv
-    \ setlocal sw=20 ts=20 sts=20 noet
+    \ setlocal sw=20 ts=20 sts=20 noexpandtab
   autocmd BufRead,BufNewFile *.ms,*.me,*.mom setlocal ft=nroff
   autocmd BufRead,BufNewFile *.c,*.py,*.js,*.java,*.vim,*rc
     \ run :IndentLinesEnable<cr>
-  autocmd BufRead,BufNewFile *.c,*.go,*.rs setlocal sw=8 ts=8 sts=8
+  autocmd BufRead,BufNewFile *.c,*.go,*.rs
+    \ setlocal sw=8 ts=8 sts=8 noexpandtab
   " autocmd BufWritePost       *.c,*.py,*.js,*.java silent! !ctags -R &
   autocmd BufRead,BufNewFile Makefile
-    \ setlocal sw=8 ts=4 sts=8 noexpandtab nolist
+    \ setlocal sw=8 ts=8 sts=8 noexpandtab nolist
   autocmd BufRead,BufNewFile *.wiki run :nunmap <buffer> o<cr>
   autocmd FileType crontab setlocal backupcopy=yes
   " Check file in shellcheck
@@ -107,7 +108,8 @@ augroup end
 
 " autocmd group for progress 4gl
 augroup group_progress
-  autocmd Filetype progress setlocal fdm=indent wrap sw=4 ts=4 tw=79
+  autocmd Filetype progress setlocal
+    \ fdm=indent wrap sw=4 ts=4 tw=79 expandtab list
   autocmd FileType progress iabbrev ava available
   autocmd FileType progress iabbrev cha character
   autocmd FileType progress iabbrev dec decimal

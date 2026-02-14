@@ -304,14 +304,6 @@ require('lazy').setup({
   'kshenoy/vim-signature',      -- show marks in gutter
   'dhruvasagar/vim-table-mode', -- table mode
   'gabrielelana/vim-markdown',  -- better markdown syntax highlighting
-  -- 'Exafunction/codeium.vim',    -- AI assistant
-  config = function ()
-  -- Change '<C-g>' here to any keycode you like.
-  vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end,
-        { expr = true, silent = true })
-  vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end,
-        { expr = true, silent = true })
-  end,
   {
     'akinsho/bufferline.nvim',  -- show buffers in tabline
     version = "*",
@@ -445,30 +437,75 @@ require('lazy').setup({
       }
   }, -- markdown.nvim
   {
-    "Exafunction/windsurf.nvim",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "hrsh7th/nvim-cmp",
-    },
+    'milanglacier/minuet-ai.nvim',
     config = function()
-        require("codeium").setup({
-        })
-    end
+      require('minuet').setup {
+        provider = "gemini",
+        throttle = 2000, -- wait 2 seconds between requests
+        debounce = 2000, -- only request after stop typing for 2 seconds
+        provider_options = {
+          gemini = {
+            model = "gemini-2.5-flash", -- Flash is best for completion speed
+            api_key = "GEMINI_API_KEY",
+          },
+        },
+        virtualtext = {
+          enabled = true,
+          keymap = {
+            accept = "<A-y>",   -- Alt + y to accept the suggestion
+            next = "<A-]>",     -- Alt + ] for next suggestion
+            prev = "<A-[>",     -- Alt + [ for prev suggestion
+            dismiss = "<A-e>",  -- Alt + e to clear
+          },
+        },
+      }
+    end,
   },
---  {
---    'kiddos/gemini.nvim',
---    opts = {
---      hints = {
---        insert_result_key = '<S-Tab>',
---      },
---      completion = {
---        insert_result_key = '<S-Tab>',
---      },
---      instruction = {
---        menu_key = '<C-m>',
---      },
---    }
---  }, -- gemini.nvim
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    -- Using 'opts' automatically calls require("codecompanion").setup(opts)
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "gemini",
+          variables = {
+            ["buffer"] = {
+              callback = "strategies.chat.variables.buffer",
+              description = "Share the current buffer with the LLM",
+              opts = {
+                contains_code = true,
+              },
+            },
+          },
+        },
+        inline = { adapter = "gemini" },
+        agent = { adapter = "gemini" },
+      },
+      adapters = {
+        gemini = function()
+          return require("codecompanion.adapters").extend("gemini", {
+            env = {
+              api_key = "GEMINI_API_KEY",
+            },
+            schema = {
+              model = {
+                default = "gemini-2.5-flash",
+              },
+            },
+          })
+        end,
+      },
+    },
+    keys = {
+      { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "AI Chat" },
+      { "<leader>ca", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "AI Actions" },
+      { "ga", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to AI Chat" },
+    },
+  },
 })
 
 -- local lspconfig = require("lspconfig")

@@ -1,15 +1,14 @@
 -- [[ init.lua ]]--
 
 -- [[ Load Configs ]]--
-require('vars')             -- Load variables
-require('opts')             -- Load options
-require('keymaps')          -- Load keymaps
-require('plugins')          -- Load plugins
-require('colorscheme')      -- Load colorscheme
-require('functions')        -- Load custom functions
-require('aucommands')       -- Load autocommands
-
-require('bufferline').setup{}
+require('vars')               -- Load variables
+require('opts')               -- Load options
+require('keymaps')            -- Load keymaps
+require('plugins')            -- Load plugins
+require('colorscheme')        -- Load colorscheme
+require('functions')          -- Load custom functions
+require('aucommands')         -- Load autocommands
+require('bufferline').setup{} -- Setup bufferline
 
 --{{{ Markdown
 vim.g.markdown_mdl_executable = 'mdl'
@@ -88,6 +87,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'minuet' },
   },
 }
 

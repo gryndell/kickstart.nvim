@@ -54,9 +54,9 @@ opt.hlsearch = true         -- bool: Highlight search matches
 --}}} Search
 
 --{{{ White Space
-opt.tabstop = 4             -- num:  Number of spaces tabs count for
-opt.shiftwidth = 4          -- num:  Size of an indent
-opt.softtabstop = 4         -- num:  Number of spaces tabs count for in insert mode
+opt.tabstop = 8             -- num:  Number of spaces tabs count for
+opt.shiftwidth = 8          -- num:  Size of an indent
+opt.softtabstop = 8         -- num:  Number of spaces tabs count for in insert mode
 opt.smarttab = true         -- Makes tabbing smarter/adaptive
 opt.expandtab = false       -- bool: Use spaces instead of tabs
 opt.smartindent = true      -- Makes indenting smart

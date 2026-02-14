@@ -1,11 +1,11 @@
 vim.cmd [[
-augroup jump_group
-  autocmd!
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal g`\"" |
-        \ endif
-augroup end
+"   augroup jump_group
+"     autocmd!
+"     autocmd BufReadPost *
+"           \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"           \   exe "normal g`\"" |
+"           \ endif
+"   augroup end
 
 " Strip trailing whitespace before writing to file
 augroup write_group
@@ -30,10 +30,10 @@ augroup file_types
 
   " Text settings
   autocmd FileType tex,text,markdown
-    \ setlocal tw=79 wrap sw=2 ts=2 et
+    \ setlocal tw=79 wrap
   autocmd FileType gitcommit  setlocal spell tw=72
   autocmd FileType fish,sh,zsh,ruby,vim,yaml,html,phtml,xhtml,xml,xsl,css,lua
-    \ setlocal tw=0 wrap sw=2 ts=2 et
+    \ setlocal tw=0 wrap
   autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
   autocmd FileType calendar   run :IndentLinesDisable
   autocmd FileType csv        run :IndentLinesDisable
@@ -52,7 +52,6 @@ augroup file_types
     \ setlocal wrap linebreak formatoptions=tcqn
   autocmd FileType markdown,nroff,tex,text   setlocal formatprg=par\ -w79
   autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal cindent
-  autocmd FileType c,cpp,javascript,lua,rust,sh,vim setlocal ts=8 sw=8
 
   " Fold Methods
   autocmd FileType markdown setlocal foldmethod=expr
@@ -88,10 +87,10 @@ augroup file_types
   autocmd BufRead,BufNewFile *.c,*.py,*.js,*.java,*.vim,*rc
     \ run :IndentLinesEnable<cr>
   autocmd BufRead,BufNewFile *.c,*.go,*.rs
-    \ setlocal sw=8 ts=8 sts=8 noexpandtab
+    \ setlocal sts=8
   " autocmd BufWritePost       *.c,*.py,*.js,*.java silent! !ctags -R &
   autocmd BufRead,BufNewFile Makefile
-    \ setlocal sw=8 ts=8 sts=8 noexpandtab nolist
+    \ setlocal sts=8 nolist
   autocmd BufRead,BufNewFile *.wiki run :nunmap <buffer> o<cr>
   autocmd FileType crontab setlocal backupcopy=yes
   " Check file in shellcheck

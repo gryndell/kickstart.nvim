@@ -64,8 +64,10 @@ keymap('n', '<leader><PageUp>', ':bp!<cr>', opts)
 -- Mappings for date/time
 keymap('n', '<f4>', '=strftime("%H:%M")<cr>p', opts)
 keymap('i', '<f4>', '<c-r>=strftime("%H:%M)<cr>', opts)
-keymap('n', '<f5>', '=strftime("%F")<cr>p', opts)
+keymap('n', '<f5>', 'i<c-r>=strftime("%F")<cr><space><esc>', opts)
+keymap('n', '<f6>', 'i<c-r>=strftime("%Y/%m/%d")<cr><space><esc>', opts)
 keymap('i', '<f5>', '<c-r>=strftime("%F")<cr>', opts)
+keymap('i', '<f6>', '<c-r>=strftime("%Y/%m/%d")<cr>', opts)
 
 -- Quotes, parentheses, brackets, and braces around
 keymap('n', '<leader>"', 'viw<esc>a"<esc>bi"<esc>lel', opts)

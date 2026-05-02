@@ -138,7 +138,9 @@ augroup end
 
 " autocmd group for cobol
 augroup group_cobol
-  autocmd FileType cobol setlocal vartabstop=7,1,4,5,4
+    autocmd FileType cobol setlocal vartabstop=7,1,4,5,4 expandtab
+        \ colorcolumn=7,11,72 shiftwidth=4 softtabstop=4
+    highlight ColorColumn guibg=#222222
 augroup end
 
 " Highlight words to avoid in tech writing

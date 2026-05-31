@@ -278,23 +278,23 @@ require('lazy').setup({
     },
   },
 
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    config = function()
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'go', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
-        -- Autoinstall languages that are not installed
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
-      }
-
-    end,
-  },
+--  { -- Highlight, edit, and navigate code
+--    'nvim-treesitter/nvim-treesitter',
+--    build = ':TSUpdate',
+--    config = function()
+--      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+--
+--      ---@diagnostic disable-next-line: missing-fields
+--      require('nvim-treesitter.configs').setup {
+--        ensure_installed = { 'bash', 'c', 'go', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+--        -- Autoinstall languages that are not installed
+--        auto_install = true,
+--        highlight = { enable = true },
+--        indent = { enable = true },
+--      }
+--
+--    end,
+--  },
 
   {
     'windwp/nvim-autopairs', -- pairs of parentheses etc.
@@ -426,16 +426,16 @@ require('lazy').setup({
       vim.cmd [[ highlight NvimTreeEndOfBuffer guibg=NONE ]]
     end,
   }, -- nvim-tree
-  {
-    'MeanderingProgrammer/markdown.nvim',
-    main = "render-markdown",
-    opts = {},
-    name = 'render-markdown',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons',
-      }
-  }, -- markdown.nvim
+--  {
+--    'MeanderingProgrammer/markdown.nvim',
+--    main = "render-markdown",
+--    opts = {},
+--    name = 'render-markdown',
+--    dependencies = {
+--      'nvim-treesitter/nvim-treesitter',
+--      'nvim-tree/nvim-web-devicons',
+--      }
+--  }, -- markdown.nvim
   {
     'milanglacier/minuet-ai.nvim',
     config = function()
